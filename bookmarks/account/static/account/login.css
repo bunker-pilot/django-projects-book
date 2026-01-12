@@ -1,0 +1,127 @@
+/* PAGE BACKGROUND (matches product pages) */
+body {
+    background: #0a0a0a;
+    background-image: radial-gradient(circle at top, #22000055, #000000 70%);
+    color: #e6e6e6;
+    font-family: Arial, sans-serif;
+}
+
+/* WRAPPER */
+.register-container {
+    max-width: 420px;
+    margin: 5rem auto;
+    background: #141414;
+    padding: 2rem 2.5rem;
+    border-radius: 12px;
+    border: 2px solid #2b0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+/* BLOOD DRIP */
+.register-container::before {
+    content: "";
+    position: absolute;
+    top: -18px;
+    left: 0;
+    width: 100%;
+    height: 35px;
+    background: url("https://i.imgur.com/6YV7jH3.png") repeat-x;
+    opacity: 0.10;
+}
+
+/* TITLE */
+.register-title {
+    font-family: "Creepster", cursive;
+    font-size: 2.6rem;
+    color: #ff0000;
+    text-align: center;
+    margin-bottom: 0.3rem;
+    text-shadow: 0 0 15px red;
+}
+
+/* Subtitle */
+.register-subtitle {
+    text-align: center;
+    color: #bfbfbf;
+    margin-bottom: 2rem;
+}
+
+/* FORM FIELDS */
+.register-field {
+    margin-bottom: 1.3rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.register-field label {
+    margin-bottom: 0.4rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    color: #cccccc;
+}
+
+.register-field input {
+    padding: 0.6rem 0.8rem;
+    border-radius: 6px;
+    border: 1px solid #300000;
+    background: #1a1a1a;
+    color: #fff;
+    transition: 0.3s;
+}
+
+.register-field input:focus {
+    border-color: #ff0000;
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.35);
+    outline: none;
+}
+
+/* ERROR HANDLING */
+.has-error input {
+    border-color: #b30000;
+}
+
+.field-error {
+    color: #ff4d4d;
+    font-size: 0.85rem;
+    margin-top: 0.4rem;
+}
+
+/* SUBMIT BUTTON */
+.register-btn {
+    width: 100%;
+    margin-top: 1.2rem;
+    padding: 0.75rem;
+    border-radius: 6px;
+    background: #1a1a1a;
+    border: 1px solid #550000;
+    color: #e6e6e6;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.register-btn:hover {
+    border-color: #ff0000;
+    color: #ff0000;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+}
+
+/* LOGIN LINK */
+.register-login-text {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: #bfbfbf;
+}
+
+.register-login-text a {
+    color: #ff4444;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.register-login-text a:hover {
+    color: #ff0000;
+    text-shadow: 0 0 8px red;
+}

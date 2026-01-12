@@ -1,0 +1,66 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+
+/* HOVER EFFECTS */
+.horror-link:hover, .horror-btn:hover {
+    color: #ff0000 !important;
+    text-shadow: 0 0 8px red;
+}
+
+/* DROPDOWN MENU */
+.horror-dropdown {
+    background-color: #1a1a1a;
+    border: 1px solid #550000;
+}
+
+.horror-dropdown-item {
+    color: #cccccc;
+    padding: 0.6rem 1.2rem;
+}
+
+.horror-dropdown-item:hover {
+    background-color: #300000;
+    color: #ff5555;
+}
+
+/* BUTTONS */
+.horror-btn {
+    border: 1px solid #550000;
+    background-color: transparent;
+    margin-right: 12px;  /* space between register/login */
+    border-radius: 6px;
+}
+
+/* CART BUTTON */
+.horror-cart {
+    border: 1px solid #550000;
+    color: #ffffff !important;
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.horror-cart:hover {
+    color: #ff0000 !important;
+    box-shadow: 0 0 10px red;
+}
+
+/* TOGGLER (mobile menu button) */
+.horror-toggler {
+    background-color: #550000;
+    border-radius: 6px;
+}
+
+/* RESPONSIVE FIXES */
+@media (max-width: 991px) { /* mobile & tablet */
+    .horror-navbar {
+        padding: 1rem; /* reduce padding on small screens */
+    }
+    .navbar-nav .nav-item {
+        margin: 0.5rem 0; /* spacing between items in collapsed menu */
+    }
+    .horror-brand {
+        margin-right: 0;
+    }
+}
+
