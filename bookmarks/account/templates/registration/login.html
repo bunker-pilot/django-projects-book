@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block page_title %}Login-page{% endblock page_title %}
+
+{% block content %}
+    
+<div class="register-container">
+
+    <form method="post" class="register-form">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="register-field {% if field.errors %}has-error{% endif %}">
+                <label>{{ field.label }}</label>
+                {{ field }}
+
+                {% if field.errors %}
+                    <p class="field-error">{{ field.errors|striptags }}</p>
+                {% endif %}
+            </div>
+        {% endfor %} 
+        <input type ="hidden" name = "next" value="{% url "dashboard" %}"/>
+        <button type="submit" class="register-btn">Sign Up</button>
+        <p class="register-login-text">
+            Don't have an account?
+            <a href="">Register</a>
+        </p>
+
+    </form>
+
+</div>
+
+{% endblock content %}

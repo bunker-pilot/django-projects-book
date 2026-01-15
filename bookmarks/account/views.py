@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from .forms import LoginForm
 from django.views import View
 
@@ -24,6 +25,11 @@ class UserLogin(View):
                     return HttpResponse("Login successful")
                 return HttpResponse("Account is not active")
             return HttpResponse("Invalid Login")    
+    
     def get(self, request):
         form = LoginForm()
         return render(request , "account/login.html" , {"form":form})
+    
+@login_required
+def dashboard(request):
+    return render(request , "account/dashboard.html")

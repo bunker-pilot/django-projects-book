@@ -123,3 +123,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = "dashboard" #you can also use the <input type ="hidden" name = "next" value="{% url "dashboard" %}"/> inside the login template :)
+LOGIN_URL = "login"
+LOGOUT_URL = "logout"
