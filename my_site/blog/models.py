@@ -19,7 +19,7 @@ class PostModel(models.Model):
     class Meta:
         verbose_name = "posts"
         ordering= ["-published"]
-
+        
         indexes = [
             # could have just used db_index=True in the published field, but it doesn't index in decending order
             models.Index(fields=[("-published")]) 
