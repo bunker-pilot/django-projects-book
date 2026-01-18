@@ -5,7 +5,7 @@ app_name= "blog"
 urlpatterns = [
     path("" , views.Home.as_view() , name = "hoome"),
     path("all_posts/" ,views.Posts ,name = "all_posts"),
-    path("<slug:slug>/" , views.PostDetail.as_view(), name ="post_detail"),
+    path("<int:yeaar>/<int:month>/<int:year>/<slug:slug>" , views.PostDetail.as_view(), name ="post_detail"),
     path("<int:id>/" , views.just_get_it , name = "justgetit")
 ]
 
