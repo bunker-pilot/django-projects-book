@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block page_title %}
+    {{post.title}}
+{% endblock page_title %}
+{% block content %}
+    <img src="{% static "post.image.url" %}">
+    <h2>
+        <a href ="{% url "blog:post_detail" post.slug %}">
+            {{post.title}}
+        </a>
+    </h2>
+    <p>
+        {{post.published}} by {{post.author}}
+        </p>
+        {{post.content|linebreaks}}
+{% endblock content %}
