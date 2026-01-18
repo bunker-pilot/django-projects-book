@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect,get_object_or_404
 from .models import PostModel
 from django.urls import reverse_lazy
 from django.views.generic import ListView, View
+from django.core.mail import send_mail
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
+from .forms import EmailPostForm
 # Create your views here.
 
 class Home(ListView):
@@ -39,6 +41,29 @@ class PostDetail(View):
     def post(self, request):
         pass
     
+class SharePost(View):
+    def get(self, request , id):
+        post = get_object_or_404(PostModel , id =id , status= PostModel.Status.Published )
+        form = EmailPostForm()
+        sent = False
+        return render(request , "blog/share.html" , {"post": post, "form": form , "sent":sent})
+    def post(self, request , id):
+        post = get_object_or_404(PostModel , id =id , status= PostModel.Status.Published )
+        form = EmailPostForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            post_url = request.build_absolute_uri(post.get_absolute_url())
+            subject = (f"{cd["name"]} recommended {cd["email"]}"
+                       f"recommended for you: {post.title}")
+            message= (f"Read {post.title} at {post_url}\n\n"
+                f"{cd['name']}\'s comments: {cd['comments']}")
+            send_mail(
+                subject=subject,
+                message=message,
+                recipient_list=[cd["to"]]
+            )
+            sent= True
+        return render(request , "blog/share.html" , {"post": post, "form": form , "sent":sent})
 def just_get_it(request , id):
     selected_post = get_object_or_404(PostModel , id =id)
     return render(request, "blog/post_detail.html" , {"psot": selected_post})
