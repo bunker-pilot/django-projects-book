@@ -4,9 +4,10 @@ from . import views
 app_name= "blog"
 urlpatterns = [
     path("" , views.Home.as_view() , name = "hoome"),
-    path("all_posts/" ,views.Posts ,name = "all_posts"),
+    path("all_posts/" ,views.Posts.as_view() ,name = "all_posts"),
     path("<int:yeaar>/<int:month>/<int:year>/<slug:slug>" , views.PostDetail.as_view(), name ="post_detail"),
-    path("<int:id>/" , views.just_get_it , name = "justgetit")
+    path("<int:id>/" , views.just_get_it , name = "justgetit"),
+    path("<int:id>/share-post/" , views.SharePost.as_view() , name = "share_post")
 ]
 
 #task = learn how to use the custom model manager with Class based views, and make a "all blogs" page

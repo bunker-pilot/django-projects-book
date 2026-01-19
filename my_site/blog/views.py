@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from .models import PostModel
 from django.urls import reverse_lazy
+from django.views.decorators.http import require_POST #makes a view to only be used for post requests and it will throw an http 405(mehtod not allowed) otherwise
 from django.views.generic import ListView, View
 from django.core.mail import send_mail
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
-from .forms import EmailPostForm
+from .forms import EmailPostForm, CommentForm
 # Create your views here.
 
 class Home(ListView):
@@ -33,14 +34,29 @@ def Posts(request):
 """
 class PostDetail(View):
     def get(self , request, slug , day,year,month):
+        form = CommentForm()
         selected_post = get_object_or_404(
             PostModel ,status= PostModel.Status.Published, slug = slug, published__day=day
             ,published__month = month , published__year=year
             )
-        return render(request , "blog/post_detail.html" , {"post": selected_post})
-    def post(self, request):
-        pass
-    
+        comments = selected_post.commments.filter(active = True)
+        return render(request , "blog/post_detail.html" , {"post": selected_post , "form":form , "comments":comments})
+    def post(self, request ,  slug , day,year,month):
+        form = CommentForm(request.POST)
+        selected_post = get_object_or_404(
+            PostModel ,status= PostModel.Status.Published, slug = slug, published__day=day
+            ,published__month = month , published__year=year
+            )
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = selected_post
+            comment.save()
+            return redirect("post_detial" , args = [slug , day , year, month])
+        return render(request , "blog/post_detail.html" , {
+            "post" :selected_post , 
+            "form" : form,
+            "comments" : selected_post.comments.all()
+        })
 class SharePost(View):
     def get(self, request , id):
         post = get_object_or_404(PostModel , id =id , status= PostModel.Status.Published )
@@ -53,10 +69,10 @@ class SharePost(View):
         if form.is_valid():
             cd = form.cleaned_data
             post_url = request.build_absolute_uri(post.get_absolute_url())
-            subject = (f"{cd["name"]} recommended {cd["email"]}"
+            subject = (f"{cd["name"]}  {cd["email"]}"
                        f"recommended for you: {post.title}")
             message= (f"Read {post.title} at {post_url}\n\n"
-                f"{cd['name']}\'s comments: {cd['comments']}")
+                f"{cd['name']}\'s comment: {cd['comments']}")
             send_mail(
                 subject=subject,
                 message=message,

@@ -39,3 +39,19 @@ class PostModel(models.Model):
     
     def __str__(self):
         return self.title
+
+class Comment(models.Model):
+    post = models.ForeignKey( PostModel, related_name="comments", on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+    email = models.EmailField( max_length=254)
+    body = models.TextField(max_length=400)
+    created = models.DateTimeField( auto_now_add=True)
+    updated = models.DateTimeField( auto_now=True)
+    active = models.BooleanField(default=True)
+
+    class Meata:
+        ordering= ["craeted"]
+        indexes = [models.Index(fields=[("created")])]
+    
+    def __str__(self):
+        return f"Comment by {self.name} on {self.post}"

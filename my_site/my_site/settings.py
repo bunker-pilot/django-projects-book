@@ -131,6 +131,6 @@ MEDIA_URL = "/media/"
 
 EMAIL_HOST = os.environ["EMAIL_HOST"]
 EMAIL_PORT = os.environ["EMAIL_PORT"]
-EMAIL_USE_TLS = os.environ["EMAIL_USER_TLS"]
+EMAIL_USE_TLS = os.environ["EMAIL_USE_TLS"]
 EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]
 EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
