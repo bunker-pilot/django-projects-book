@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from .models import Profile
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from .forms import LoginForm, UserRegisterationForm
+from .forms import LoginForm, UserRegisterationForm, EditProfileForm,UserEditForm
 from django.views import View
 
 
@@ -45,5 +47,22 @@ class UserRegisteration(View):
             new_user = form.save(commit=False)
             new_user.set_password(form.cleaned_data["password"])
             new_user.save()
+            Profile.objects.create(user = new_user)
             return render(request , "account/register_done.html" , {"new_user":new_user})
         return render(request , "account/register.html" , {"form":form})
+    
+
+class Edit(LoginRequiredMixin,View ):
+    def get(self, request):
+        user_form = UserEditForm(instance=request.user)
+        profile_form = EditProfileForm(instance=request.user.profile)
+        return render(request , "account/edit_profile.html" , {"user_form" :user_form , "profile_form":profile_form})
+    def post(self , request):
+        user_form = UserEditForm(data=request.POST , instance=request.user)
+        profile_form = EditProfileForm(instance=request.user.profile , data=request.POST , files=request.FILES)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+        return render(request , "account/edit_profile.html" , {"user_form":user_form,"profile_form":profile_form})
+        
+
