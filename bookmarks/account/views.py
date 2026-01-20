@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .forms import LoginForm
+from .forms import LoginForm, UserRegisterationForm
 from django.views import View
 
 
@@ -33,3 +33,17 @@ class UserLogin(View):
 @login_required
 def dashboard(request):
     return render(request , "account/dashboard.html" , {"section":"dashboard"})
+
+#task : added email verification for registeration
+class UserRegisteration(View):
+    def get(self, request):
+        form = UserRegisterationForm()
+        return render(request , "account/register.html" , {"form":form})
+    def post(self, request):
+        form = UserRegisterationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.set_password(form.cleaned_data["password"])
+            new_user.save()
+            return render(request , "account/register_done.html" , {"new_user":new_user})
+        return render(request , "account/register.html" , {"form":form})

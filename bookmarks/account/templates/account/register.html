@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block page_title %}Create an account{% endblock page_title %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="register-field {% if field.errors %}has-error{% endif %}">
+                <label>{{ field.label }}</label>
+                {{ field }}
+
+                {% if field.errors %}
+                    <p class="field-error">{{ field.errors|striptags }}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="register-btn">Register</button>
+
+        <p class="register-login-text">
+            Have an account?
+            <a href="{% url "login" %}">Login</a>
+        </p>
+    </form>
+{% endblock content %}
+

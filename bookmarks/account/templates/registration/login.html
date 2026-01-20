@@ -20,9 +20,13 @@
         {% endfor %} 
         <input type ="hidden" name = "next" value="{% url "dashboard" %}"/>
         <button type="submit" class="register-btn">Sign Up</button>
+        <p>
+            Forgot your password?
+            <a href= "{% url "password_reset" %}">Reset password</a>
+        </p>
         <p class="register-login-text">
             Don't have an account?
-            <a href="">Register</a>
+            <a href="{% url "register" %}">Register</a>
         </p>
 
     </form>
