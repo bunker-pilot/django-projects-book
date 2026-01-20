@@ -15,7 +15,7 @@
 
                 {% if field.errors %}
                     <p class="field-error">{{ field.errors|striptags }}</p>
-                {% endif %}
+                {% endif %}z
             </div>
         {% endfor %} 
         <input type ="hidden" name = "next" value="{% url "dashboard" %}"/>

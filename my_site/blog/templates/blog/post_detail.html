@@ -10,4 +10,25 @@
         </p>
     {{post.content|linebreaks}}
     <a href="{% url "blog:share_post" post.id %}">Share post</a>
+    <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+            <label>{{field.label_tag}}</label>{{field}}
+            {{field.help_text|safe}}
+        {% endfor %}
+        <button type="submit">Comment</button>
+    </form>
+
+    {% with total_comments=comments.count %}
+            {{total_comments}} Comment{{total_comments|pluralize}}
+    {% endwith %}
+    {% for comment in comments %}
+        <div>
+            Comment {{forloop.counter}} by {{comment.name}}
+            {{comment.created}}
+            {{comment.body|linebreaks}}
+        </div>,
+    {%empty%}
+        <p>There are no comments</p>
+    {% endfor %}
 {% endblock content %}

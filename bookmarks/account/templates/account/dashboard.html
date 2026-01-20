@@ -5,12 +5,4 @@
 {% block page_title %}Dashboard{% endblock page_title %}
 
 
-{% block content %}
-
-    <h1>Welcome to your dashboard</h1>
-
-    <form action = "{% url "logout" %}" method= "POST">
-        {% csrf_token %}
-        <button type = "submit">log out</button>
-    </form>
-{% endblock content %}
+]
