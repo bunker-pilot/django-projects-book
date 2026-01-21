@@ -6,6 +6,7 @@ urlpatterns = [
     path("" , include("django.contrib.auth.urls")),
     path("" , views.dashboard , name = "dashboard"),
     path("" , views.UserRegisteration.as_view() , name= "register"),
+    path("email-verification/<uidb64:str>/<token:str>/" , views.EmailVerification.as_view() , name = "email_verification"),
     path("edit/" , views.Edit.as_view() , name="edit_profile")
 ]   
 """

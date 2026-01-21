@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from .models import Profile
 
-
+# question about the get_user_model() , if we were going to use the User model then why bother with this piece of useless gorbage
 class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
