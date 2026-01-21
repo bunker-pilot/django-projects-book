@@ -38,6 +38,13 @@
             {% endif %}
         </span>
         </div>
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{message|safe}}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         <div>
             {% block content %}
             {% endblock content %}

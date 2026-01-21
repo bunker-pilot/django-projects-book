@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from .forms import LoginForm, UserRegisterationForm, EditProfileForm,UserEditForm
 from django.views import View
+from django.contrib import messages
 
 
 # Create your views here.
@@ -63,6 +64,9 @@ class Edit(LoginRequiredMixin,View ):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
+            messages.success(request , "Profile updated successfuly!")
+        else:
+            messages.error(request , "Invalid inputs")
         return render(request , "account/edit_profile.html" , {"user_form":user_form,"profile_form":profile_form})
         
 
