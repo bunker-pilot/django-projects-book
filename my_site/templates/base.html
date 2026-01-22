@@ -9,6 +9,7 @@
     {% block css_files %}{% endblock css_files %}
 </head>
 <body>
+    <a href = {% url "blog:all_posts" %}>All posts</a>
     {% block content %}{% endblock content %}
 </body>
 </html>

@@ -11,7 +11,7 @@ from .forms import EmailPostForm, CommentForm
 class Home(ListView):
     model = PostModel
     template_name = "blog/home.html"
-    context_object_name= "new-posts"
+    context_object_name= "newposts"
     queryset= PostModel.presented.all()[:3]
 class Posts(ListView):
     template_name = "blog/all_posts.html"

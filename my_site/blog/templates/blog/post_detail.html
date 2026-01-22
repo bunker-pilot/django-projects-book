@@ -3,7 +3,7 @@
     {{post.title}}
 {% endblock page_title %}
 {% block content %}
-    <img src="{% static "post.image.url" %}">
+    <img src="{{post.image.url}}">
     <h2>  {{post.title}} </h2>
     <p>
         {{post.published}} by {{post.author}}

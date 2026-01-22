@@ -4,8 +4,8 @@
 {% endblock page_title %}
 {% block content %}
     <h2>My blog</h2>
-    {% for post in new-posts %}
-        <img src="{% static "post.image.url" %}">
+    {% for post in newposts %}
+        <img src="{{post.image.url}}">
         <h2>
             <a href ="{% url "post.get_absolute_url"  %}">
                 {{post.title}}
