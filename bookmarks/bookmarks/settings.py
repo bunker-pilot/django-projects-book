@@ -138,8 +138,9 @@ LOGIN_URL = "login"
 LOGOUT_URL = "logout"
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #Email set up
-EMAIL_HOST = os.environ["EMAIL_HOST"]
-EMAIL_PORT = os.environ["EMAIL_PORT"]
-EMAIL_USE_TLS = os.environ["EMAIL_USE_TLS"]
-EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]
-EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
+if not DEBUG:
+    EMAIL_HOST = os.environ["EMAIL_HOST"]
+    EMAIL_PORT = os.environ["EMAIL_PORT"]
+    EMAIL_USE_TLS = os.environ["EMAIL_USE_TLS"]
+    EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]
+    EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]

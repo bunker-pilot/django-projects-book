@@ -15,11 +15,11 @@
 
                 {% if field.errors %}
                     <p class="field-error">{{ field.errors|striptags }}</p>
-                {% endif %}z
+                {% endif %}
             </div>
         {% endfor %} 
         <input type ="hidden" name = "next" value="{% url "dashboard" %}"/>
-        <button type="submit" class="register-btn">Sign Up</button>
+        <button type="submit" class="register-btn">Sign in</button>
         <p>
             Forgot your password?
             <a href= "{% url "password_reset" %}">Reset password</a>

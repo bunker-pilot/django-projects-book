@@ -49,18 +49,17 @@ class UserRegisteration(View):
         form = UserRegisterationForm(request.POST)
         if form.is_valid():
             new_user = form.save(commit=False)
-            new_user.set_password(form.cleaned_data["password"])
             new_user.is_active = False
             new_user.save()
             Profile.objects.create(user = new_user)
 
             current_sit = get_current_site(request)
             subject= "Verify your email"
-            message = render_to_string("registeration/email_verification.html" , {
+            message = render_to_string("registration/email_verification.html" , {
                 "user": new_user,
                 "domain": current_sit.domain,
                 "uid": urlsafe_base64_encode(force_bytes(new_user.id)),
-                "token": account_activation_token.make_token(new_user),
+                "token": account_activation_token.make_token(user=new_user),
             })
 
             new_user.email_user(subject , message)
@@ -77,10 +76,10 @@ class EmailVerification(View):
         if user and account_activation_token.check_token(user ,token):
             user.is_active =True
             user.save()
-            messages.success("Email verified successfuly")
+            messages.success(request,"Email verified successfuly")
             return redirect("login")
         else:
-            messages.error("Email verification Failed :(")
+            messages.error(request,"Email verification Failed :(")
 
 class Edit(LoginRequiredMixin,View ):
     def get(self, request):
