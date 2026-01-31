@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
+from taggit.managers import TaggableManager
 from django.conf import settings
 # Create your models here.
 class PublishedManager(models.Manager):
@@ -9,7 +10,7 @@ class PublishedManager(models.Manager):
 class PostModel(models.Model):
     objects = models.Manager()# the defaul manager
     presented = PublishedManager() # the custom manager
-    
+    tags = TaggableManager()
     class Status(models.TextChoices):
         Draft = "DF" , "Draft"
         Published = "PB" , "Published"

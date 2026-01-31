@@ -6,6 +6,7 @@ from django.views.generic import ListView, View
 from django.core.mail import send_mail
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from .forms import EmailPostForm, CommentForm
+from taggit.models import Tag
 # Create your views here.
 
 class Home(ListView):
@@ -19,6 +20,16 @@ class Posts(ListView):
     queryset = PostModel.presented.all()
     paginate_by = 5
     context_object_name = "posts"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tag_slug = self.kwargs.get("tag_slug" , False)
+        if tag_slug:
+            context["tag"] = get_object_or_404(Tag , slug =tag_slug )
+            context["posts"] = PostModel.presented.filter(tags__in=[context["tag"]])
+        return context
+    
+
+    
 """   
 def Posts(request):
     post_lists = PostModel.published.all()

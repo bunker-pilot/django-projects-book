@@ -5,6 +5,7 @@
 {% block content %}
     <img src="{{post.image.url}}">
     <h2>  {{post.title}} </h2>
+    <p>Tags: {{post.tags.all|join:", "}}</p>
     <p>
         {{post.published}} by {{post.author}}
         </p>
