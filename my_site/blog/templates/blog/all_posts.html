@@ -6,7 +6,7 @@
     {% for post in posts %}
         <img src="{{post.image.url}}">
         <h2>
-            <a href ="{% url "blog:post_detail" post.slug %}">
+            <a href ="{% url "post.get_absolute_url" %}">
                 {{post.title}}
             </a>
         </h2>

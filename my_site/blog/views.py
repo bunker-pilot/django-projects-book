@@ -69,7 +69,7 @@ class SharePost(View):
         if form.is_valid():
             cd = form.cleaned_data
             post_url = request.build_absolute_uri(post.get_absolute_url())
-            subject = (f"{cd["name"]}  {cd["email"]}"
+            subject = (f"{cd["name"]} : {cd["email"]}"
                        f"recommended for you: {post.title}")
             message= (f"Read {post.title} at {post_url}\n\n"
                 f"{cd['name']}\'s comment: {cd['comments']}")
@@ -79,7 +79,9 @@ class SharePost(View):
                 recipient_list=[cd["to"]]
             )
             sent= True
+        else:
+            sent =False
         return render(request , "blog/share.html" , {"post": post, "form": form , "sent":sent})
 def just_get_it(request , id):
     selected_post = get_object_or_404(PostModel , id =id)
-    return render(request, "blog/post_detail.html" , {"psot": selected_post})
+    return render(request, "blog/post_detail.html" , {"post": selected_post})
