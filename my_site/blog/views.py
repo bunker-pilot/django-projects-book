@@ -70,7 +70,7 @@ class PostDetail(View):
             comment = form.save(commit=False)
             comment.post = selected_post
             comment.save()
-            return redirect("post_detial" , args = [slug , day , year, month])
+            return redirect("blog:post_detail", slug=slug,day=day,year=year,month=month)
         return render(request , "blog/post_detail.html" , {
             "post" :selected_post , 
             "form" : form,

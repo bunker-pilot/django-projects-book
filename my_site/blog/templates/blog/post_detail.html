@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load blog_tags %}
 {% block page_title %}{{post.title}}{% endblock %}
 
 {% block content %}
@@ -37,7 +38,33 @@
         <p>No similar posts.</p>
     {% endfor %}
 </div>
-
+<!--latest posts-->
+<h2> Latest posts:</h2>
+{% show_latest_posts 3%}
+<!--Most commented posts-->
+<h2>Most commented posts</h2>
+{% most_commented_posts as most_commented_posts %}
+<ul>
+    {% for post in most_commented_posts %}
+        <li>
+            <a href = "{{post.get_absolute_url}}">{{post.title}}</a>
+        </li>
+    {% endfor %}
+</ul>
+<!-- Comment form -->
+<div class="card">
+    <h3>Leave a comment</h3>
+    <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+            <p>
+                {{field.label_tag}}<br>
+                {{field}}
+            </p>
+        {% endfor %}
+        <button class="btn" type="submit">Submit</button>
+    </form>
+</div>
 <!-- Comments -->
 <div class="card">
     <h3>Comments ({{comments.count}})</h3>
@@ -53,18 +80,5 @@
     {% endfor %}
 </div>
 
-<!-- Comment form -->
-<div class="card">
-    <h3>Leave a comment</h3>
-    <form method="POST">
-        {% csrf_token %}
-        {% for field in form %}
-            <p>
-                {{field.label_tag}}<br>
-                {{field}}
-            </p>
-        {% endfor %}
-        <button class="btn" type="submit">Submit</button>
-    </form>
-</div>
+
 {% endblock %}

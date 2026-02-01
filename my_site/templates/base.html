@@ -1,4 +1,5 @@
 {% load static %}
+{% load blog_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +10,7 @@
     {% block css_files %}{% endblock css_files %}
 </head>
 <body>
+    <h2>i've written {%total_posts%} so far</h2>
     <a href = {% url "blog:all_posts" %}>All posts</a>
     {% block content %}{% endblock content %}
 </body>
