@@ -7,7 +7,7 @@ from django.core.mail import send_mail
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from .forms import EmailPostForm, CommentForm
 from taggit.models import Tag
-from django.db.models import Count, F
+from django.db.models import Count, Q
 # Create your views here.
 
 class Home(ListView):
@@ -54,8 +54,8 @@ class PostDetail(View):
         #similar posts based on the tags
         post_tags = selected_post.tags.values_list("id",flat=True)
         similar_posts = PostModel.presented.filter(tags__in=post_tags).exclude(id = selected_post.id)
-        similar_posts = similar_posts.annotate(same_tags = Count("tags", filter= F("tags__in")& F(post_tags))).order_by("-same_tags" , "-published")[:2]
-        comments = selected_post.commments.filter(active = True)
+        similar_posts = similar_posts.annotate(same_tags = Count("tags" , filter=Q(tags__in=post_tags))).order_by("-same_tags" , "-published")[:2]
+        comments = selected_post.comments.filter(active = True)
         return render(request , "blog/post_detail.html" , {
             "post": selected_post , "form":form , "similar_posts":similar_posts,
             "comments":comments})

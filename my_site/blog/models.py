@@ -24,7 +24,7 @@ class PostModel(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField( choices=Status, default=Status.Draft, max_length=2)
     class Meta:
-        verbose_name = "posts"
+        verbose_name = "post"
         ordering= ["-published"]
         
         indexes = [
