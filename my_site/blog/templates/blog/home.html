@@ -15,5 +15,6 @@
             {{post.published}} by {{post.author}}
          </p>
          {{post.content|truncatewords:30|linebreaks}}
+         <p>{{post.tags.all|join:", "}}</p>
     {% endfor %}
 {% endblock content %}

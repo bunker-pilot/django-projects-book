@@ -5,10 +5,10 @@ app_name= "blog"
 urlpatterns = [
     path("" , views.Home.as_view() , name = "hoome"),
     path("all_posts/" ,views.Posts.as_view() ,name = "all_posts"),
+    path("tag/<slug:tag_slug>/" ,views.Posts.as_view() , name="posts_by_tags"),
     path("<int:year>/<int:month>/<int:day>/<slug:slug>" , views.PostDetail.as_view(), name ="post_detail"),
     path("<int:id>/" , views.just_get_it , name = "justgetit"),
     path("<int:id>/share-post/" , views.SharePost.as_view() , name = "share_post"),
-    path("tag/<slug:tag_slug>/" ,views.Posts.as_view() , name="posts_by_tags")
 ]
 
 #task = learn how to use the custom model manager with Class based views, and make a "all blogs" page

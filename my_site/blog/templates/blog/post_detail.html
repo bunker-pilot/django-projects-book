@@ -11,6 +11,12 @@
         </p>
     {{post.content|linebreaks}}
     <a href="{% url "blog:share_post" post.id %}">Share post</a>
+    <p>Similar posts:</p>
+    {% for p  in similar_posts %}
+        <a href = "{% url "p.get_absolute_url" %}">{{p.title}}</a>
+    {%empty%}
+        <p>No similar posts sadge </p>
+    {% endfor %}
     <form method="POST">
         {% csrf_token %}
         {% for field in form %}
