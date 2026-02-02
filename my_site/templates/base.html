@@ -12,6 +12,9 @@
 <body>
     <h2>i've written {%total_posts%} so far</h2>
     <a href = {% url "blog:all_posts" %}>All posts</a>
+    <p>
+        <a href = "{% url "blog:post_feed" %}">subscribe to my Rss feed</a>
+    </p>
     {% block content %}{% endblock content %}
 </body>
 </html>

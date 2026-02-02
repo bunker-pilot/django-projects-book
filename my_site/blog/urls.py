@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .feeds import LatestPostsFeed
 
 app_name= "blog"
 urlpatterns = [
@@ -9,6 +10,8 @@ urlpatterns = [
     path("<int:year>/<int:month>/<int:day>/<slug:slug>" , views.PostDetail.as_view(), name ="post_detail"),
     path("<int:id>/" , views.just_get_it , name = "justgetit"),
     path("<int:id>/share-post/" , views.SharePost.as_view() , name = "share_post"),
+
+    path("feed/" , LatestPostsFeed() , name="post_feed")
 ]
 
 #task = learn how to use the custom model manager with Class based views, and make a "all blogs" page
