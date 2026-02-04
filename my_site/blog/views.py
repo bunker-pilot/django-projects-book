@@ -5,9 +5,10 @@ from django.views.decorators.http import require_POST #makes a view to only be u
 from django.views.generic import ListView, View
 from django.core.mail import send_mail
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
-from .forms import EmailPostForm, CommentForm
+from .forms import EmailPostForm, CommentForm, SearchForm
 from taggit.models import Tag
 from django.db.models import Count, Q
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 # Create your views here.
 
 class Home(ListView):
@@ -104,3 +105,18 @@ class SharePost(View):
 def just_get_it(request , id):
     selected_post = get_object_or_404(PostModel , id =id)
     return render(request, "blog/post_detail.html" , {"post": selected_post})
+
+
+class PostSerach(View):
+    def get(self, request):
+        form = SearchForm()
+        return render(request , "blog/search.html" , {"form":form})
+    def post(self , request):
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data["query"]
+            search_query = SearchQuery(query)
+            search_vector = SearchVector("title", "content")
+            results = (PostModel.presented.annotate(search =search_vector , rank = SearchRank(search_vector , search_query)).filter(search = search_query).order_by("-rank"))
+            return render(request , "blog/search.html" , {"form" : form ,"query":query , "results":results})
+        return render(request , "blog/search.html" , {"form":form})

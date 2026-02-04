@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load blog_tags %}
+{% block page_title %}Search{% endblock page_title %}
+{% block content %}
+    {% if query %}
+        <h3>
+            {% with results.count as total_results%}
+                Found {{total_results}} result{{total_results|pluralize}}
+            {% endwith %}
+        </h3>
+        {% for post in results %}
+            <h4>
+                <a href = "{{post.get_absolute_url}}">{{post.title}}</a>
+            </h4>
+            {{post.content|markdown|truncatechars_html:14}}
+        {%empty%}
+            <p>No results for your query</p>
+        {% endfor %}
+    <a href= "{% url "blog:post_search" %}">Seacrh again</a>
+    {% else %}
+     <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+            <label>{{field.label}}</label>{{field}}
+        {% endfor %}
+        <button type="submit">Seacrh</button>
+        </form>
+    {% endif %}
+{% endblock content %}

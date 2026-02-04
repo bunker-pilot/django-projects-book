@@ -11,7 +11,8 @@ urlpatterns = [
     path("<int:id>/" , views.just_get_it , name = "justgetit"),
     path("<int:id>/share-post/" , views.SharePost.as_view() , name = "share_post"),
 
-    path("feed/" , LatestPostsFeed() , name="post_feed")
+    path("feed/" , LatestPostsFeed() , name="post_feed"),
+    path("search/"  , views.PostSerach.as_view(), name= "post_search")
 ]
 
 #task = learn how to use the custom model manager with Class based views, and make a "all blogs" page
