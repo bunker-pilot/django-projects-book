@@ -24,7 +24,11 @@
 
     <div class="tags">
         {% for tag in post.tags.all %}
-            <span>{{tag.name}}</span>
+            <span>
+                <a href="{% url "blog:posts_by_tags" tag.slug %}">
+                    {{tag.name}}{% if not forloop.last %}, {% endif %}
+                </a>
+            </span>
         {% endfor %}
     </div>
 </div>
