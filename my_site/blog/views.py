@@ -8,7 +8,7 @@ from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from .forms import EmailPostForm, CommentForm, SearchForm
 from taggit.models import Tag
 from django.db.models import Count, Q
-from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank, TrigramSimilarity
 # Create your views here.
 
 class Home(ListView):
@@ -115,8 +115,9 @@ class PostSerach(View):
         form = SearchForm(request.POST)
         if form.is_valid():
             query = form.cleaned_data["query"]
-            search_query = SearchQuery(query)
-            search_vector = SearchVector("title", "content")
-            results = (PostModel.presented.annotate(search =search_vector , rank = SearchRank(search_vector , search_query)).filter(search = search_query).order_by("-rank"))
+            #search_query = SearchQuery(query)
+            #search_vector = SearchVector("title", weight="A") + SearchVector("content" , weight="B")
+            #results = (PostModel.presented.annotate(search =search_vector , rank = SearchRank(search_vector , search_query)).filter(rank__gte = 0.3).order_by("-rank"))
+            results = PostModel.presented.annotate(similarity = TrigramSimilarity("title" , query)).filter(similarity__gt=0.1).order_by("-similarity")
             return render(request , "blog/search.html" , {"form" : form ,"query":query , "results":results})
         return render(request , "blog/search.html" , {"form":form})
