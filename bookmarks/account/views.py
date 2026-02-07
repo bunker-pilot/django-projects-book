@@ -51,7 +51,6 @@ class UserRegisteration(View):
             new_user = form.save(commit=False)
             new_user.is_active = False
             new_user.save()
-            Profile.objects.create(user = new_user)
 
             current_sit = get_current_site(request)
             subject= "Verify your email"
