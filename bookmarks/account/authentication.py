@@ -3,17 +3,16 @@ from django.contrib.auth.models import User
 
 
 class EmailAuthBackend:
-    def authenticate(self, request, username=None , password=None):
+    def authenticate(self , request, username= None , password = None):
         try:
-            user = User.objects.get(email = username )
+            user = User.objects.get(email = username)
             if user.check_password(password):
                 return user
             return None
-        except User.DoesNotExist or User.MultipleObjectsReturned:
+        except (User.MultipleObjectsReturned , User.DoesNotExist):
             return None
-        
-    def get_user(self, id):
+    def get_user(self, user_id):
         try:
-            return  User.objects.get(pk=id)
+            return User.objects.get(pk = user_id)
         except User.DoesNotExist:
             return None

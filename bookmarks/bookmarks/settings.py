@@ -28,7 +28,9 @@ SECRET_KEY = 'django-insecure-&rwjs6g2zyz6zqux2(waad3t(0r5!ta8c7b8=!52!x=d*59m$)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "mysite.com", "localhost","127.0.0.1"
+]
 
 
 # Application definition
@@ -40,7 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles',""
+    "django_extensions",
+    "social_django",
+    
 ]
 
 MIDDLEWARE = [
@@ -117,10 +122,10 @@ USE_I18N = True
 USE_TZ = True
 
 # auth backends
-
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "account.authentication.EmailAuthBackend",
+    "social_core.backends.google.GoogleOAuth2"
 ]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
@@ -144,3 +149,8 @@ if not DEBUG:
     EMAIL_USE_TLS = os.environ["EMAIL_USE_TLS"]
     EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]
     EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
+
+#social auth for google
+
+GOOGLE_OAUTH2_KEY = os.environ["GOOGLE_OAUTH2_KEY"]
+GOOGLE_OAUTH2_SECRET = os.environ["GOOGLE_OAUTH2_SECRET"]

@@ -76,10 +76,9 @@ class EmailVerification(View):
             user.is_active =True
             user.save()
             messages.success(request,"Email verified successfuly")
-            return redirect("login")
         else:
             messages.error(request,"Email verification Failed :(")
-
+        return redirect("login")
 class Edit(LoginRequiredMixin,View ):
     def get(self, request):
         user_form = UserEditForm(instance=request.user)

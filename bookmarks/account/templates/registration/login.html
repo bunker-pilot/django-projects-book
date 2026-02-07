@@ -10,7 +10,7 @@
         {% csrf_token %}
         {% for field in form %}
             <div class="register-field {% if field.errors %}has-error{% endif %}">
-                <label>{{ field.label }}</label>
+                <label>{{ field.label }}{% if forloop.first %} or email{% endif %}</label>
                 {{ field }}
 
                 {% if field.errors %}
@@ -30,7 +30,12 @@
         </p>
 
     </form>
-
 </div>
-
+<div>
+    <ul>
+        <li>
+            <a href= "{% url "social:begin" "google-oauth2" %}">sign in with google</a>
+        </li>
+    </ul>
+</div>
 {% endblock content %}

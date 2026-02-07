@@ -34,7 +34,7 @@ class UserRegisterationForm(forms.ModelForm):
 class UserRegisterationForm(UserCreationForm):
     email = forms.EmailField( required=True , max_length = 300)
     class Meta:
-        model = User
+        model = get_user_model()
         fields = ["username" , "email" , "password1", "password2"]
     
     def clean_email(self):
