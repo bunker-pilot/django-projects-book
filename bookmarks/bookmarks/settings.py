@@ -152,5 +152,20 @@ if not DEBUG:
 
 #social auth for google
 
-GOOGLE_OAUTH2_KEY = os.environ["GOOGLE_OAUTH2_KEY"]
-GOOGLE_OAUTH2_SECRET = os.environ["GOOGLE_OAUTH2_SECRET"]
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ["GOOGLE_OAUTH2_KEY"]
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ["GOOGLE_OAUTH2_SECRET"]
+
+
+#social auth pipeline
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',      # Get details from Google (incl. email)
+    'social_core.pipeline.social_auth.social_uid',          # Get unique ID
+    'social_core.pipeline.social_auth.auth_allowed',        # Check auth allowed
+    'social_core.pipeline.social_auth.social_user',         # Check if already associated via social
+    'social_core.pipeline.user.get_username',               # Get/generate username
+    'social_core.pipeline.social_auth.associate_by_email',  # <-- Key step: associate if email matches existing user
+    'social_core.pipeline.user.create_user',                # Create ONLY if no match found
+    'social_core.pipeline.social_auth.associate_user',      # Associate social account
+    'social_core.pipeline.social_auth.load_extra_data',     # Load extra data (e.g., avatar)
+    'social_core.pipeline.user.user_details',               # Update user details
+)
