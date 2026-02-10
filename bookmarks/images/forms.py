@@ -18,7 +18,7 @@ class ImageForm(forms.ModelForm):
         if extension not in valid_extensions:
             raise forms.ValidationError("This image format is not supported!")
         return url 
-    def save(self,commit =True):
+    def save(self, commit =True):
         image = super().save(commit = False)
         image_url = self.cleaned_data["url"]
         name = slugify(image.title)
