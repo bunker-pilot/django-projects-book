@@ -29,7 +29,9 @@ SECRET_KEY = 'django-insecure-&rwjs6g2zyz6zqux2(waad3t(0r5!ta8c7b8=!52!x=d*59m$)
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "mysite.com", "localhost","127.0.0.1"
+    "mysite.com", 
+    "localhost",
+    "127.0.0.1"
 ]
 
 
@@ -137,7 +139,7 @@ STATICFILES_DIRS = [BASE_DIR/"static"]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 MEDIA_ROOT = "static/media/"
-MEFIA_URL = "media/"
+MEDIA_URL = "/media/"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = "dashboard" #you can also use the <input type ="hidden" name = "next" value="{% url "dashboard" %}"/> inside the login template :)

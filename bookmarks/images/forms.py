@@ -1,6 +1,8 @@
 from django import forms 
 import requests
 from django.core.files.base import ContentFile
+from PIL import Image as PILimage
+from io import BytesIO
 from django.utils.text import slugify
 from .models import Image
 
@@ -26,6 +28,11 @@ class ImageForm(forms.ModelForm):
         image_name = f"{name}.{extension}"
         response = requests.get(image_url)
         response.raise_for_status()
+        try:
+            img = PILimage.open(BytesIO(response.content))
+            img.verify()
+        except (IOError, SyntaxError):
+            forms.ValidationError("This is not a valid image.")
         image.image.save(
             image_name, ContentFile(response.content), save = False
         )
