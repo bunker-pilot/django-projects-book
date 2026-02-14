@@ -8,7 +8,9 @@ urlpatterns = [
     path("" , views.dashboard , name = "dashboard"),
     path("register/" , views.UserRegisteration.as_view() , name= "register"),
     path("email-verification/<str:uidb64>/<str:token>/" , views.EmailVerification.as_view() , name = "email_verification"),
-    path("edit/" , views.Edit.as_view() , name="edit_profile")
+    path("edit/" , views.Edit.as_view() , name="edit_profile"),
+    path("users-list/", views.UserList.as_view() , name = "users_list"),
+    path("users/<username>/" , views.UserDetail.as_view(), name = "user_detail")
 ]   
 """
  #path("login/" , views.UserLogin.as_view() , name ="login")

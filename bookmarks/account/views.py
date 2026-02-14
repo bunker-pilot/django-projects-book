@@ -1,12 +1,11 @@
 from django.shortcuts import render , get_object_or_404 , redirect
-from django.contrib.auth.models import User
 from .models import Profile
-from django.http import HttpResponse
-from django.contrib.auth import authenticate, login
+from django.http import HttpResponse, Http404
+from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from .forms import LoginForm, UserRegisterationForm, EditProfileForm,UserEditForm
-from django.views import View
+from django.views.generic import View, ListView
 from django.contrib import messages
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes , force_str
@@ -15,7 +14,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from .tokens import account_activation_token
 # Create your views here.
 
-
+User = get_user_model()
 
 class UserLogin(View):
     def post(self, request):
@@ -96,3 +95,30 @@ class Edit(LoginRequiredMixin,View ):
         return render(request , "account/edit_profile.html" , {"user_form":user_form,"profile_form":profile_form})
         
 
+class UserList(LoginRequiredMixin ,ListView):
+    model = User
+    template_name = "account/user/list.html"
+    queryset = User.objects.filter(is_active=True)
+    context_object_name = "users"
+    paginate_by = 10
+    def get_context_data(self, **kwargs):
+        context= super().get_context_data(**kwargs)
+        context["section"] = "people"
+        return context
+    def get_template_names(self):
+        if self.request.GET.get("users_only"):
+            return ["images/image/list_users.html"]
+        return [self.template_name]
+    def get(self, request, *args, **kwargs):
+        try:
+            return super().get(request, *args, **kwargs)
+        except Http404:# task, when paginator tries an empty page, listview turns it into a Http404 error, customize the paginator subclass :)
+            return HttpResponse("", status=204)
+
+class UserDetail(LoginRequiredMixin, View):
+    def get(self, request, username):
+        user = get_object_or_404(User, username= username , is_active= True )
+        return render(request ,"account/user/detail.html" , {"section":"people" , "user":user})
+    
+    def post(self, request , username):
+        pass
