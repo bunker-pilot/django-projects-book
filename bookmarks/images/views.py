@@ -4,7 +4,9 @@ from .forms import ImageForm
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from .models import Image
-from django.views.generic import View
+from django.http import HttpResponse, Http404
+from django.core.paginator import EmptyPage
+from django.views.generic import View, ListView
 from django.http import JsonResponse
 
 # Create your views here.
@@ -49,3 +51,25 @@ class ImageLike(LoginRequiredMixin , View):
                 pass
         return JsonResponse({"status": "error"})
             
+
+class ImageList(LoginRequiredMixin, ListView):
+    template_name = "images/image/list.html"
+    model = Image
+    context_object_name ="images"
+    paginate_by = 8
+    queryset = Image.objects.all()
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        context["section"] = "images"
+        return context
+    def get_template_names(self):
+        if self.request.GET.get("images_only"):
+            return ["images/image/list_images.html"]
+        return [self.template_name]
+    def get(self, request, *args, **kwargs):
+        try:
+            return super().get(request, *args, **kwargs)
+        except Http404:# task, when paginator tries an empty page, listview turns it into a Http404 error, customize the paginator subclass :)
+            if request.GET.get("images_only"):
+                return HttpResponse("", status=204)
+            return HttpResponse("", status=204)
