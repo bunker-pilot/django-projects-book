@@ -1,6 +1,6 @@
 from django.shortcuts import render , get_object_or_404 , redirect
-from .models import Profile
-from django.http import HttpResponse, Http404
+from .models import Profile, Contact
+from django.http import HttpResponse, Http404,JsonResponse
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -122,3 +122,21 @@ class UserDetail(LoginRequiredMixin, View):
     
     def post(self, request , username):
         pass
+
+class UserFollow(LoginRequiredMixin, View):
+    def post(self, request):
+        id = request.POST.get("id")
+        action = request.POST.get("action")
+        if id and action:
+            try:
+                user = User.objects.get(pk = id)
+                if user == request.user:
+                    return JsonResponse({"status":"error"})
+                if action =="follow":
+                    Contact.objects.get_or_create(user_from= request.user, user_to =user)
+                else:
+                    Contact.objects.filter(user_from = request.user, user_to=user).delete()
+                return JsonResponse({"status":"ok"})
+            except User.DoesNotExist:
+                return JsonResponse({'status' : "error"})
+        return JsonResponse({"status":"error"})

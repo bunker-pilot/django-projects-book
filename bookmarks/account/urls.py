@@ -10,6 +10,7 @@ urlpatterns = [
     path("email-verification/<str:uidb64>/<str:token>/" , views.EmailVerification.as_view() , name = "email_verification"),
     path("edit/" , views.Edit.as_view() , name="edit_profile"),
     path("users-list/", views.UserList.as_view() , name = "users_list"),
+    path("users/follow/" , views.UserFollow.as_view() , name = "user_follow" ),
     path("users/<username>/" , views.UserDetail.as_view(), name = "user_detail")
 ]   
 """
