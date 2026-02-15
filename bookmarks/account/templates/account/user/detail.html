@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block page_title %} {{user.username}}{% endblock page_title %}
+
+{% block content %}
+  <h1>{{ user.username }}</h1>
+  <h2>Fullname:{{user.get_full_name}}<h2>
+  <div class="profile-info">
+    <a href="{{user.get_absolute_url}}">
+        {% if user.profile.photo %}
+        <img src="{% thumbnail user.profile.get_avatar 180x180 %}">
+        {% else %}
+        <img src="https://robohash.org/{{ user.username }}.png?size=180x180" alt="avatar">
+        {% endif %}
+    </a>
+  </div>
+  {% with total_followers=user.followers.count %}
+    <span class="count">
+      <span class="total">{{ total_followers }}</span>
+      follower{{ total_followers|pluralize }}
+    </span>
+    <a href="#" data-id="{{ user.id }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow" class="follow button">
+      {% if request.user not in user.followers.all %}
+        Follow
+      {% else %}
+        Unfollow
+      {% endif %}
+    </a>
+    <div id="image-list" class="image-container">
+      {% include "images/image/list_images.html" with images=user.images_created.all %}
+    </div>
+  {% endwith %}
+{% endblock %}

@@ -12,7 +12,6 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"Profile of {self.user.username}"
-    
 
 class Contact(models.Model):
     user_from = models.ForeignKey(settings.AUTH_USER_MODEL,related_name="rel_from_set", on_delete=models.CASCADE)
